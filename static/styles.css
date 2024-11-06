@@ -1,0 +1,166 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #181818;
+    color: #f8f9fa;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #000;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.login-button {
+    background-color: #ff007f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Hero section */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Aligns video to the top of the hero section */
+    background-color: black; /* Sets background color to black for side borders */
+    height: 80vh; /* Adjust height as needed */
+}
+
+.hero-video {
+    width: 80vw; /* Adjust width to control the overall size */
+    height: calc(80vw * 9 / 21); /* Calculates height based on a 21:9 aspect ratio */
+    position: relative;
+    object-fit: cover;
+}
+
+.promo-card {
+    position: absolute;
+    bottom: 20px; /* Positions it at the bottom */
+    right: 20px; /* Positions it in the right corner */
+    background: rgba(0, 0, 0, 0.5); /* Dark background for readability */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1; /* Ensures it's above the video */
+}
+
+.promo-card h2 {
+    color: #ff007f;
+}
+
+.speaker-button {
+    position: absolute;
+    bottom: 20px; /* Bottom of the screen */
+    left: 20px; /* Left corner */
+    background: rgba(0, 0, 0, 0.5); /* Background for contrast */
+    color: white;
+    border: none;
+    padding: 15px; /* Larger padding for a bigger button */
+    border-radius: 50%;
+    font-size: 24px; /* Larger font for visibility */
+    cursor: pointer;
+    z-index: 1; /* Above the video */
+}
+
+.speaker-button:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.get-tickets-button {
+    display: inline-block;
+    color: #ff007f;
+    text-decoration: none;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Movies section */
+.movies-section {
+    padding: 20px;
+    text-align: center;
+}
+
+.movies-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.movie-list {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.movie-item {
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    width: 150px;
+}
+
+.movie-item img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.movie-item:hover {
+    background-color: #444; /* Darkens background color on hover */
+    transform: scale(1.05); /* Slightly enlarges the item */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Adds a shadow for depth */
+}
+
+.film-detail-link {
+    display: block;
+    color: #ff007f;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
