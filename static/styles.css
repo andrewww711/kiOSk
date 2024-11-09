@@ -35,16 +35,6 @@ body {
     color: #fff;
 }
 
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-}
-
-.nav-links li {
-    display: inline;
-}
-
 .nav-links a {
     color: #fff;
     text-decoration: none;
@@ -66,27 +56,27 @@ body {
     overflow: hidden;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Aligns video to the top of the hero section */
-    background-color: black; /* Sets background color to black for side borders */
-    height: 80vh; /* Adjust height as needed */
+    align-items: center;
+    background-color: black;
+    height: auto;
 }
 
 .hero-video {
-    width: 80vw; /* Adjust width to control the overall size */
-    height: calc(80vw * 9 / 21); /* Calculates height based on a 21:9 aspect ratio */
-    position: relative;
-    object-fit: cover;
+    max-width: 100vw; /* Restricts video width to viewport width */
+    max-height: 100vh; /* Restricts video height to viewport height */
+    width: auto;
+    height: auto;
 }
 
 .promo-card {
     position: absolute;
-    bottom: 20px; /* Positions it at the bottom */
-    right: 20px; /* Positions it in the right corner */
-    background: rgba(0, 0, 0, 0.5); /* Dark background for readability */
+    bottom: 10px; /* Bottom-right corner of the video */
+    right: 10px;
+    background: rgba(0, 0, 0, 0.5);
     color: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
-    z-index: 1; /* Ensures it's above the video */
+    z-index: 1;
 }
 
 .promo-card h2 {
@@ -95,22 +85,23 @@ body {
 
 .speaker-button {
     position: absolute;
-    bottom: 20px; /* Bottom of the screen */
-    left: 20px; /* Left corner */
-    background: rgba(0, 0, 0, 0.5); /* Background for contrast */
+    bottom: 10px; /* Bottom-left corner of the video */
+    left: 10px;
+    background: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    padding: 15px; /* Larger padding for a bigger button */
+    padding: 15px;
     border-radius: 50%;
-    font-size: 24px; /* Larger font for visibility */
+    font-size: 24px;
     cursor: pointer;
-    z-index: 1; /* Above the video */
+    z-index: 1;
 }
 
 .speaker-button:hover {
     background: rgba(0, 0, 0, 0.7);
 }
 
+/* Get Tickets Button */
 .get-tickets-button {
     display: inline-block;
     color: #ff007f;
@@ -152,9 +143,9 @@ body {
 }
 
 .movie-item:hover {
-    background-color: #444; /* Darkens background color on hover */
-    transform: scale(1.05); /* Slightly enlarges the item */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Adds a shadow for depth */
+    background-color: #444;
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .film-detail-link {
@@ -164,3 +155,67 @@ body {
     font-size: 0.9rem;
     margin-top: 5px;
 }
+
+/* Now Playing title */
+.now-playing-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #ff007f; /* Match the color theme */
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+
+/* Carousel styling */
+.carousel-container {
+    position: relative;
+    width: 100%; /* Full width of the viewport */
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 15px; /* Adds spacing between movies */
+}
+
+.movie-item {
+    flex: 0 0 auto; /* Prevents items from shrinking or growing */
+    box-sizing: border-box;
+}
+
+/* Navigation buttons */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.carousel-button--left {
+    left: 10px;
+}
+
+.carousel-button--right {
+    right: 10px;
+}
+
+/* Footer styling */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #181818; /* Matches site background color */
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 1rem;
+    z-index: 1;
+}
+

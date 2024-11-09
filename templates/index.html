@@ -10,8 +10,6 @@
     <header>
         <nav class="navbar">
             <div class="logo">Welcome to the Ultimate Theatre Experience</div>
-            
-            <!-- Wrap nav-links and login button in a container -->
             <div class="navbar-right">
                 <ul class="nav-links">
                     <li><a href="#">Movies</a></li>
@@ -38,86 +36,27 @@
             <a href="#" class="get-tickets-button">Get Tickets</a>
         </div>
 
-        <script>
-            window.addEventListener('load', function() {
-                const video = document.getElementById('trailerVideo');
-                if (video) {
-                    video.play().catch(error => console.log('Video play failed:', error));
-                }
-            });
-        
-            function toggleMute() {
-                const video = document.getElementById('trailerVideo');
-                const speakerButton = document.getElementById('speakerButton');
-                if (video.muted) {
-                    video.muted = false;
-                    speakerButton.textContent = "🔊";  // Change icon to indicate unmuted
-                } else {
-                    video.muted = true;
-                    speakerButton.textContent = "🔈";  // Change icon to indicate muted
-                }
-            }
-        </script>
-
         <!-- Speaker Button for Unmute -->
         <button class="speaker-button" onclick="toggleMute()" id="speakerButton">🔈</button>
     </section>
 
     <section class="movies-section">
-        <h2>Movies Now Playing</h2>
-        <div class="movie-list">
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/Venom_the_last_dance_poster.webp') }}" alt="Venom: The Last Dance">
-                <p>Venom: The Last Dance</p>
-                <a href="#" class="film-detail-link">Film Details</a>
+        <h2 class="now-playing-title">Now Playing</h2>
+        <div class="carousel-container">
+            <div id="movies-container" class="carousel-track">
+                <!-- Movie items will be injected here dynamically -->
             </div>
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/oppenheimer_poster.jpg') }}" alt="Oppenheimer">
-                <p>Oppenheimer</p>
-                <a href="#" class="film-detail-link">Film Details</a>
-            </div>
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/the_wild_robot_poster.webp') }}" alt="The Wild Robot">
-                <p>The Wild Robot</p>
-                <a href="#" class="film-detail-link">Film Details</a>
-            </div>
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/beetlejuice_beetlejuice_poster.webp') }}" alt="Beetlejuice Beetlejuice">
-                <p>Beetlejuice Beetlejuice</p>
-                <a href="#" class="film-detail-link">Film Details</a>
-            </div>
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/absolution_poster.jpg') }}" alt="Absolution">
-                <p>Absolution</p>
-                <a href="#" class="film-detail-link">Film Details</a>
-            </div>
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/joker_2_poster.jpg') }}" alt="Joker: Folie à Deux">
-                <p>Joker: Folie à Deux</p>
-                <a href="#" class="film-detail-link">Film Details</a>
-            </div>
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/piece_by_piece_poster.webp') }}" alt="Piece By Piece">
-                <p>Piece By Piece</p>
-                <a href="#" class="film-detail-link">Film Details</a>
-            </div>
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/smile_2_poster.jpg') }}" alt="Smile 2">
-                <p>Smile 2</p>
-                <a href="#" class="film-detail-link">Film Details</a>
-            </div>
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/godzilla_minus_one_poster.jpg') }}" alt="Godzilla Minus One">
-                <p>Godzilla Minus One</p>
-                <a href="#" class="film-detail-link">Film Details</a>
-            </div>
-            <div class="movie-item">
-                <img src="{{ url_for('static', filename='posters/transformers_one_poster.jpg') }}" alt="Transformers One">
-                <p>Transformers One</p>
-                <a href="#" class="film-detail-link">Film Details</a>
-            </div>
-            <!-- Add more movie items here -->
+            <button class="carousel-button carousel-button--left" onclick="moveSlide(-1)">❮</button>
+            <button class="carousel-button carousel-button--right" onclick="moveSlide(1)">❯</button>
         </div>
     </section>
+
+    <!-- Link to external JavaScript files -->
+    <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
 </body>
+
+<footer class="footer">
+    <p>Andrew Webster, Kyson Keate, 2024</p>
+</footer>
+
 </html>

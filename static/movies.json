@@ -1,0 +1,103 @@
+[
+    {
+        "title": "Venom: The Last Dance",
+        "poster": "static/posters/Venom_the_last_dance_poster.webp",
+        "alt": "Venom: The Last Dance",
+        "rating":"PG-13",
+        "genre": ["Horror", "Action", "Superhero", "Adventure", "Comedy"],
+        "theatre":"1",
+        "cast":["Tom Hardy", "Juno Temple", "Rhys Ifans"],
+        "trailer":"static/posters/trailers/venom_the_last_dance_trailer.mp4" 
+
+    },
+    {
+        "title": "Oppenheimer",
+        "poster": "static/posters/oppenheimer_poster.jpg",
+        "alt": "Oppenheimer",
+        "rating":"R",
+        "genre": ["Thriller", "Historical Drama"],
+        "theatre":"2",
+        "cast":["Cillian Murphy", "Florence Pugh", "Josh Hartnett"],
+        "trailer":"static/posters/trailers/oppenheimer_trailer.mp4"
+    },
+    {
+        "title": "The Wild Robot",
+        "poster": "static/posters/the_wild_robot_poster.webp",
+        "alt": "The Wild Robot",
+        "rating":"PG-13",
+        "genre": ["Animation", "Children's film", "Adventure"],
+        "theatre":"3",
+        "cast":["Kit Connor", "Pedro Pascal", "Bill Nighy"],
+        "trailer":"static/posters/trailers/the_wild_robot_trailer.mp4"
+    },
+    {
+        "title": "Beetlejuice Beetlejuice",
+        "poster": "static/posters/beetlejuice_beetlejuice_poster.webp",
+        "alt": "Beetlejuice Beetlejuice",
+        "rating":"PG-13",
+        "genre": ["Horror", "Comedy", "Musical"],
+        "theatre":"4",
+        "cast":["Michale Keaton", "Winona Ryder", "Jenna Ortega"],
+        "trailer":"static/posters/trailers/beetlejuice_beetlejuice_trailer.mp4"
+    },
+    {
+        "title": "Absolution",
+        "poster": "static/posters/absolution_poster.jpg",
+        "alt": "Absolution",
+        "rating":"R",
+        "genre": ["Crime", "Action", "Thriller"],
+        "theatre":"5",
+        "cast":["Liam Neeson", "Yolonda Ross", "Ron Perlman"],
+        "trailer":"static/posters/trailers/absolution_trailer.mp4"
+    },
+    {
+        "title": "Joker: Folie à Deux",
+        "poster": "static/posters/joker_2_poster.jpg",
+        "alt": "Joker: Folie à Deux",
+        "rating":"R",
+        "genre": ["Musical", "Action", "Thriller"],
+        "theatre":"6",
+        "cast":["Joaquin Phoenix", "Lady Gaga", "Harry Lawtey"],
+        "trailer":"static/posters/trailers/joker_two_trailer.mp4"
+    },
+    {
+        "title": "Piece By Piece",
+        "poster": "static/posters/piece_by_piece_poster.webp",
+        "alt": "Piece By Piece",
+        "rating":"PG",
+        "genre": ["Musical", "Animation", "biographical"],
+        "theatre":"7",
+        "cast":["Pharrell Williams", "Chad Hugo", "Kendrick Lamar"],
+        "trailer":"static/posters/trailers/piece_by_piece_trailer.mp4"
+    },
+    {
+        "title": "Smile 2",
+        "poster": "static/posters/smile_2_poster.jpg",
+        "alt": "Smile 2",
+        "rating":"R",
+        "genre": ["Horror", "Mystery"],
+        "theatre":"8",
+        "cast":["Naomi Scott", "Ray Nicholson", "Kyle Gallner"],
+        "trailer":"static/posters/trailers/smile_two_trailer.mp4"
+    },
+    {
+        "title": "Godzilla Minus One",
+        "poster": "static/posters/godzilla_minus_one_poster.jpg",
+        "alt": "Godzilla Minus One",
+        "rating":"PG-13",
+        "genre": ["Action", "Sci-fi", "Adventure"],
+        "theatre":"9",
+        "cast":["Minami Hamabe", "Ryuunosuke Kamiki", "Yuki Yamada"],
+        "trailer":"static/posters/trailers/godzilla_minus_one_trailer.mp4"
+    },
+    {
+        "title": "Transformers One",
+        "poster": "static/posters/transformers_one_poster.jpg",
+        "alt": "Transformers One",
+        "rating":"PG-13",
+        "genre": ["Action", "Animated", "Sci-fi"],
+        "theatre":"10",
+        "cast": ["Chris Hemsworth", "Brian Tyree Henry", "Josh Cooley"],
+        "trailer":"static/posters/trailers/transformers_one_trailer.mp4"
+    }
+]
