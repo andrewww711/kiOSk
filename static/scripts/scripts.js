@@ -4,19 +4,23 @@ fetch('static/movies.json')
         const container = document.getElementById('movies-container');
 
         // Populate the carousel with movie items
-        movies.forEach(movie => {
+        movies.forEach((movie, index) => {
             const movieDiv = document.createElement('div');
             movieDiv.classList.add('movie-item');
             movieDiv.innerHTML = `
-                <img src="${movie.poster}" alt="${movie.alt}">
-                <p>${movie.title}</p>
-                <a href="#" class="film-detail-link">Film Details</a>
+                <button onclick="showMovieDetails(${index})" class="movie-button">
+                    <img src="${movie.poster}" alt="${movie.alt}">
+                    <p>${movie.title}</p>
+                </button>
             `;
             container.appendChild(movieDiv);
         });
 
-        // Duplicate the first few items at the end for seamless looping
-        for (let i = 0; i < 10; i++) { // Duplicate enough for large screens
+        // Store movie data globally for modal access
+        window.moviesData = movies;
+
+        // Duplicate items for seamless looping
+        for (let i = 0; i < 10; i++) {
             const clone = container.children[i].cloneNode(true);
             container.appendChild(clone);
         }
@@ -30,7 +34,7 @@ fetch('static/movies.json')
     })
     .catch(error => console.error('Error loading movies:', error));
 
-// Carousel functionality
+// Carousel Functionality
 let currentSlide = 0;
 
 function adjustCarousel() {
@@ -38,25 +42,22 @@ function adjustCarousel() {
     const movieItems = document.querySelectorAll('.movie-item');
     const screenWidth = window.innerWidth;
 
-    // Calculate number of movies to display based on screen width
-    let moviesToShow = Math.floor(screenWidth / 150); // Example: 150px per item with gaps
-    moviesToShow = Math.max(3, Math.min(moviesToShow, 10)); // Limit between 3 and 10 movies
+    let moviesToShow = Math.floor(screenWidth / 150);
+    moviesToShow = Math.max(3, Math.min(moviesToShow, 10));
 
-    // Set the width of each movie item to fit the number of movies in the viewport
     const itemWidth = 100 / moviesToShow;
     movieItems.forEach(item => {
-        item.style.minWidth = `calc(${itemWidth}% - 15px)`; // Subtract gap
+        item.style.minWidth = `calc(${itemWidth}% - 15px)`;
     });
 }
 
 function moveSlide(direction) {
     const track = document.querySelector('.carousel-track');
-    const movieWidth = document.querySelector('.movie-item').offsetWidth + 15; // Include gap
+    const movieWidth = document.querySelector('.movie-item').offsetWidth + 15;
     const totalMovies = document.querySelectorAll('.movie-item').length;
 
     currentSlide = (currentSlide + direction + totalMovies) % totalMovies;
 
-    // Loop back to the start when reaching the end of cloned items
     if (currentSlide >= totalMovies - 10 && direction === 1) {
         setTimeout(() => {
             track.style.transition = 'none';
@@ -69,11 +70,98 @@ function moveSlide(direction) {
     }
 }
 
-// Auto-scroll function
 function startAutoScroll() {
     setInterval(() => {
-        moveSlide(1); // Move one movie to the right every interval
-    }, 3000); // Adjust timing as needed (3000ms = 3 seconds)
+        moveSlide(1);
+    }, 3000);
+}
+
+// Function to load showtimes from data.json based on theater number
+async function loadShowtimes(theaterNumber) {
+    try {
+        // Add a cache-busting parameter to ensure we fetch the latest data
+        const response = await fetch(`/static/ticket-database/data.json?timestamp=${new Date().getTime()}`);
+        
+        // Check if response is okay
+        if (!response.ok) {
+            console.error("Failed to load data.json:", response.statusText);
+            return [];
+        }
+
+        const data = await response.json();
+        console.log("Loaded data:", data); // Debugging: see the entire JSON structure
+
+        // Find the theater by theater_id
+        const theater = data.theaters.find(theater => theater.theater_id === theaterNumber);
+        if (!theater) {
+            console.warn(`Theater ${theaterNumber} not found in data.json`);
+            return [];
+        }
+
+        console.log("Found theater:", theater); // Debugging: see the theater object
+
+        // Extract only the time from each showtime's start_time
+        const showtimes = theater.showtimes.map(showtime => {
+            const time = new Date(showtime.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            return time;
+        });
+
+        console.log("Extracted showtimes:", showtimes); // Debugging: see the showtimes array
+        return showtimes;
+    } catch (error) {
+        console.error("Error loading showtimes:", error);
+        return [];
+    }
+}
+
+
+// Modal Functionality
+async function showMovieDetails(index) {
+    const movie = window.moviesData[index];
+
+    document.getElementById('modalPoster').src = movie.poster;
+    document.getElementById('modalTitle').textContent = movie.title;
+    document.getElementById('modalRating').innerHTML = `<strong>Rating:</strong> ${movie.rating}`;
+    document.getElementById('modalRuntime').innerHTML = `<strong>Runtime:</strong> ${movie.runtime}`;
+    document.getElementById('modalGenre').innerHTML = `<strong>Genre:</strong> ${movie.genre.join(', ')}`;
+    document.getElementById('modalTheatre').innerHTML = `<strong>Theatre:</strong> ${movie.theatre}`;
+    document.getElementById('modalCast').innerHTML = `<strong>Cast:</strong> ${movie.cast.join(', ')}`;
+
+    // Set the trailer source but hide it initially
+    const trailer = document.getElementById('modalTrailer');
+    trailer.src = movie.trailer;
+    trailer.style.display = 'none';
+    trailer.autoplay = false; // Ensure autoplay is initially off
+
+    // Ensure "Watch Trailer" button is visible
+    document.getElementById('watchTrailerButton').style.display = 'inline-block';
+
+    // Load and display available showtimes for the selected theater
+    const showtimes = await loadShowtimes(parseInt(movie.theatre, 10)); // Ensure theatre ID is an integer
+    const showtimeElement = document.getElementById('modalShowtimes');
+    showtimeElement.innerHTML = `<strong>Showtimes:</strong> ${showtimes.join(', ')}`;
+
+    // Display the modal
+    document.getElementById('movieModal').style.display = 'flex'; 
+}
+
+
+// Show trailer video with autoplay when "Watch Trailer" button is clicked
+function showTrailer() {
+    const trailer = document.getElementById('modalTrailer');
+    trailer.style.display = 'block'; // Show the trailer
+    trailer.autoplay = true; // Enable autoplay
+    trailer.play(); // Play the video immediately
+    document.getElementById('watchTrailerButton').style.display = 'none'; // Hide the button
+}
+
+function closeModal() {
+    document.getElementById('movieModal').style.display = 'none';
+    const trailer = document.getElementById('modalTrailer');
+    trailer.style.display = 'none'; // Hide the trailer when closing the modal
+    trailer.pause(); // Pause trailer playback
+    trailer.removeAttribute('src'); // Remove the source to stop the video
+    trailer.load(); // Reset the video element
 }
 
 
@@ -95,4 +183,13 @@ function toggleMute() {
         video.muted = true;
         speakerButton.textContent = "🔈";  // Change icon to indicate muted
     }
+}
+
+function getTickets() {
+    // Retrieve the movie title and theater number from the modal
+    const movieTitle = document.getElementById('modalTitle').textContent;
+    const theaterNumber = document.getElementById('modalTheatre').textContent.split(': ')[1];
+
+    // Redirect to the get tickets page with the movie title and theater number as query parameters
+    window.location.href = `/get-tickets?title=${encodeURIComponent(movieTitle)}&theatre=${encodeURIComponent(theaterNumber)}`;
 }

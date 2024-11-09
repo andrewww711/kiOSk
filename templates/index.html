@@ -51,6 +51,42 @@
         </div>
     </section>
 
+    <!-- Movie Details Modal -->
+<div id="movieModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeModal()">&times;</span>
+        
+        <!-- Container for Flex Layout -->
+        <div class="modal-body">
+            <!-- Poster Image on the Left -->
+            <img id="modalPoster" src="" alt="Movie Poster" class="modal-poster">
+            
+            <!-- Movie Information on the Right -->
+            <div class="modal-info">
+                <h2 id="modalTitle">Title</h2>
+                <p id="modalRating"><strong>Rating:</strong> PG-13</p>
+                <p id="modalRuntime"><strong>Runtime:</strong>1hr 52m</p>
+                <p id="modalGenre"><strong>Genre:</strong> Horror, Action</p>
+                <p id="modalTheatre"><strong>Theatre:</strong> 1</p>
+                <p id="modalShowtimes"><strong>Showtimes:</strong> Loading...</p>
+                <p id="modalCast"><strong>Cast:</strong> Tom Hardy, Juno Temple</p>
+                
+                <!-- Watch Trailer Button -->
+                <button id="watchTrailerButton" onclick="showTrailer()">Watch Trailer</button>
+
+                <!-- Get Tickets Button -->
+                <button id="getTicketsButton" onclick="getTickets()">Get Tickets</button>
+                
+                <!-- Trailer Video (initially hidden) -->
+                <video id="modalTrailer" controls style="display: none; margin-top: 15px;">
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+
     <!-- Link to external JavaScript files -->
     <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
 </body>

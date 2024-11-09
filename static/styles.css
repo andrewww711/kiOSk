@@ -191,7 +191,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
+    color: inherit;
     border: none;
     padding: 10px;
     cursor: pointer;
@@ -218,4 +218,113 @@ body {
     font-size: 1rem;
     z-index: 1;
 }
+
+/* Modal styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #181818;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Flex container for poster and information */
+.modal-body {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* Poster styling */
+.modal-poster {
+    width: 40%; /* Adjust width as needed */
+    height: auto; /* Maintains aspect ratio */
+    border-radius: 8px;
+}
+
+/* Movie information styling */
+.modal-info {
+    flex: 1; /* Takes up remaining space */
+}
+
+.modal-info h2 {
+    margin-top: 0;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Watch trailer button and get tickets button */
+#watchTrailerButton {
+    background-color: #ff007f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+#watchTrailerButton:hover {
+    background-color: #e60073;
+}
+
+#getTicketsButton {
+    background-color: #ff007f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+#getTicketsButton:hover {
+    background-color: #e60073;
+}
+
+/* Trailer video styling */
+.modal video {
+    width: 100%;
+    margin-top: 15px;
+    display: block;
+}
+
+.movie-button {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    color: inherit; /* Inherits text color from parent */
+    font: inherit; /* Inherits font settings */
+    text-align: inherit; /* Inherits text alignment */
+}
+
+
 

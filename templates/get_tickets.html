@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Tickets</title>
+    <style>
+        /* Seat layout styling */
+        .seat-layout { display: flex; flex-direction: column; margin-top: 20px; }
+        .seat-row { display: flex; margin-bottom: 5px; }
+        .seat { width: 30px; height: 30px; margin: 3px; cursor: pointer; }
+        .seat.available { background-color: blue; }
+        .seat.taken { background-color: red; }
+    </style>
+</head>
+<body>
+    <!-- Back to Main Menu Button -->
+    <button onclick="window.location.href='/'">Back to Main Menu</button>
+
+    <!-- Movie Title and Theater Number -->
+    <h1 id="pageTitle">Get tickets for {{ movie_title }}</h1>
+    <p id="theaterInfo" style="font-size: 0.9em; color: gray;">Theater Number: {{ theater_number }}</p>
+
+    <!-- Showtimes List -->
+    <h3>Available Showtimes</h3>
+    <ul>
+        {% for showtime in showtimes %}
+            <li>
+                <button onclick="loadSeats('{{ showtime.id }}')">{{ showtime.time }}</button>
+            </li>
+        {% else %}
+            <li>No showtimes available</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Seat Layout -->
+    <div id="seatLayout" class="seat-layout"></div>
+
+    <script>
+        // Function to load seats for a specific showtime
+        async function loadSeats(showtimeId) {
+            const response = await fetch(`/get-seats?showtime_id=${showtimeId}`);
+            const seats = await response.json();
+            renderSeatLayout(seats);
+        }
+
+        // Function to render seat layout
+        function renderSeatLayout(seats) {
+            const seatLayout = document.getElementById('seatLayout');
+            seatLayout.innerHTML = ''; // Clear existing layout
+
+            // Create rows based on seat data
+            const rows = {};
+            seats.forEach(seat => {
+                if (!rows[seat.row]) rows[seat.row] = [];
+                rows[seat.row].push(seat);
+            });
+
+            // Render each row
+            for (const row in rows) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'seat-row';
+
+                rows[row].forEach(seat => {
+                    const seatDiv = document.createElement('div');
+                    seatDiv.className = `seat ${seat.is_available ? 'available' : 'taken'}`;
+                    seatDiv.textContent = seat.number;
+                    rowDiv.appendChild(seatDiv);
+                });
+
+                seatLayout.appendChild(rowDiv);
+            }
+        }
+    </script>
+</body>
+</html>
