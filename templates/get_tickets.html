@@ -4,73 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Tickets</title>
-    <style>
-        /* Seat layout styling */
-        .seat-layout { display: flex; flex-direction: column; margin-top: 20px; }
-        .seat-row { display: flex; margin-bottom: 5px; }
-        .seat { width: 30px; height: 30px; margin: 3px; cursor: pointer; }
-        .seat.available { background-color: blue; }
-        .seat.taken { background-color: red; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
 </head>
+<header>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Welcome to the RedRock Theatre</div>
+            <div class="navbar-right">
+                <button class="login-button" onclick="window.location.href='/'">Back to Movie Selection</button>
+            </div>
+        </nav>
+    </header>
+</header>
 <body>
-    <!-- Back to Main Menu Button -->
-    <button onclick="window.location.href='/'">Back to Main Menu</button>
 
     <!-- Movie Title and Theater Number -->
     <h1 id="pageTitle">Get tickets for {{ movie_title }}</h1>
     <p id="theaterInfo" style="font-size: 0.9em; color: gray;">Theater Number: {{ theater_number }}</p>
 
-    <!-- Showtimes List -->
-    <h3>Available Showtimes</h3>
-    <ul>
-        {% for showtime in showtimes %}
-            <li>
-                <button onclick="loadSeats('{{ showtime.id }}')">{{ showtime.time }}</button>
-            </li>
-        {% else %}
-            <li>No showtimes available</li>
-        {% endfor %}
-    </ul>
+    <!-- Ticket Selection Modal -->
+<div id="ticketSelectionModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>Select Tickets</h2>
+        <!-- Warning Message -->
+        <p id="warningMessage" style="color: red; display: none;">Please select at least one ticket.</p>
 
-    <!-- Seat Layout -->
-    <div id="seatLayout" class="seat-layout"></div>
+        <div class="ticket-category">
+            <label>Adult ($11.99):</label>
+            <button onclick="adjustQuantity('adult', -1)">-</button>
+            <span id="adultCount">0</span>
+            <button onclick="adjustQuantity('adult', 1)">+</button>
+        </div>
 
-    <script>
-        // Function to load seats for a specific showtime
-        async function loadSeats(showtimeId) {
-            const response = await fetch(`/get-seats?showtime_id=${showtimeId}`);
-            const seats = await response.json();
-            renderSeatLayout(seats);
-        }
+        <div class="ticket-category">
+            <label>Child (5 and under) ($8.99):</label>
+            <button onclick="adjustQuantity('child', -1)">-</button>
+            <span id="childCount">0</span>
+            <button onclick="adjustQuantity('child', 1)">+</button>
+        </div>
 
-        // Function to render seat layout
-        function renderSeatLayout(seats) {
-            const seatLayout = document.getElementById('seatLayout');
-            seatLayout.innerHTML = ''; // Clear existing layout
+        <div class="ticket-category">
+            <label>Senior ($9.99):</label>
+            <button onclick="adjustQuantity('senior', -1)">-</button>
+            <span id="seniorCount">0</span>
+            <button onclick="adjustQuantity('senior', 1)">+</button>
+        </div>
 
-            // Create rows based on seat data
-            const rows = {};
-            seats.forEach(seat => {
-                if (!rows[seat.row]) rows[seat.row] = [];
-                rows[seat.row].push(seat);
-            });
+        <div class="total-section">
+            <p>Total Tickets: <span id="totalTickets">0</span></p>
+            <p>Total Price: $<span id="totalPrice">0.00</span></p>
+            <button onclick="confirmSelection()" class="confirm-button">Confirm</button>
+        </div>
+    </div>
+</div>
 
-            // Render each row
-            for (const row in rows) {
-                const rowDiv = document.createElement('div');
-                rowDiv.className = 'seat-row';
+<!-- Showtime Selection Screen -->
+<div id="showtimeSelection" style="display: none;">
+    <h2>Select a Showtime</h2>
+    <div id="showtimeButtons"></div>
+    <button onclick="goBackToTicketSelection()" class="back-button">Back to Ticket Selection</button>
+</div>
 
-                rows[row].forEach(seat => {
-                    const seatDiv = document.createElement('div');
-                    seatDiv.className = `seat ${seat.is_available ? 'available' : 'taken'}`;
-                    seatDiv.textContent = seat.number;
-                    rowDiv.appendChild(seatDiv);
-                });
 
-                seatLayout.appendChild(rowDiv);
-            }
-        }
-    </script>
 </body>
 </html>

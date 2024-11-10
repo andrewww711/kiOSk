@@ -193,3 +193,64 @@ function getTickets() {
     // Redirect to the get tickets page with the movie title and theater number as query parameters
     window.location.href = `/get-tickets?title=${encodeURIComponent(movieTitle)}&theatre=${encodeURIComponent(theaterNumber)}`;
 }
+
+// Ticket prices
+const prices = {
+    adult: 11.99,
+    child: 8.99,
+    senior: 9.99
+};
+
+// Ticket counts
+let ticketCounts = {
+    adult: 0,
+    child: 0,
+    senior: 0
+};
+
+// Update ticket counts and total price
+function adjustQuantity(type, amount) {
+    // Update count for the specified ticket type
+    ticketCounts[type] = Math.max(0, ticketCounts[type] + amount);
+    
+    // Update the displayed count for this ticket type
+    document.getElementById(`${type}Count`).innerText = ticketCounts[type];
+
+    // Calculate totals
+    updateTotals();
+}
+
+// Calculate and update total tickets and price
+function updateTotals() {
+    const totalTickets = ticketCounts.adult + ticketCounts.child + ticketCounts.senior;
+    const totalPrice = (ticketCounts.adult * prices.adult) + (ticketCounts.child * prices.child) + (ticketCounts.senior * prices.senior);
+
+    // Update displayed totals
+    document.getElementById("totalTickets").innerText = totalTickets;
+    document.getElementById("totalPrice").innerText = totalPrice.toFixed(2);
+}
+
+// Confirm selection and show warning if no tickets are selected
+function confirmSelection() {
+    const totalTickets = ticketCounts.adult + ticketCounts.child + ticketCounts.senior;
+    const warningMessage = document.getElementById("warningMessage");
+
+    if (totalTickets > 0) {
+        warningMessage.style.display = "none";
+        openShowtimeSelection();
+    } else {
+        warningMessage.style.display = "block";
+    }
+}
+
+// Open the showtime selection screen
+function openShowtimeSelection() {
+    document.getElementById("ticketSelectionModal").style.display = "none";
+    document.getElementById("showtimeSelection").style.display = "block";
+}
+
+// Go back to ticket selection from showtime selection
+function goBackToTicketSelection() {
+    document.getElementById("showtimeSelection").style.display = "none";
+    document.getElementById("ticketSelectionModal").style.display = "block";
+}
