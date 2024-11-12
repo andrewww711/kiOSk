@@ -4321,27 +4321,27 @@
                         {
                             "row": "D",
                             "number": 7,
-                            "is_available": true
+                            "is_available": false
                         },
                         {
                             "row": "D",
                             "number": 8,
-                            "is_available": true
+                            "is_available": false
                         },
                         {
                             "row": "D",
                             "number": 9,
-                            "is_available": true
+                            "is_available": false
                         },
                         {
                             "row": "D",
                             "number": 10,
-                            "is_available": true
+                            "is_available": false
                         },
                         {
                             "row": "D",
                             "number": 11,
-                            "is_available": true
+                            "is_available": false
                         },
                         {
                             "row": "D",
@@ -4471,17 +4471,17 @@
                         {
                             "row": "F",
                             "number": 5,
-                            "is_available": true
+                            "is_available": false
                         },
                         {
                             "row": "F",
                             "number": 6,
-                            "is_available": true
+                            "is_available": false
                         },
                         {
                             "row": "F",
                             "number": 7,
-                            "is_available": true
+                            "is_available": false
                         },
                         {
                             "row": "F",

@@ -302,14 +302,17 @@ function goBackToTicketSelection() {
 }
 
 
-function selectShowtime(showtime) {
+let currentlySelectedShowtimeId = null; // Declare a global variable to store the selected showtime ID
+
+function selectShowtime(showtime, totalTickets) {
+    currentlySelectedShowtimeId = showtime.showtime_id; // Save the showtime ID
     console.log("Selected showtime:", showtime);
-    openSeatSelection(showtime.showtime_id); // Pass the showtime ID
+    openSeatSelection(showtime.showtime_id, totalTickets); // Pass totalTickets to openSeatSelection
 }
 
 
-let selectedSeats = [];
 
+let selectedSeats = [];
 async function openSeatSelection(showtimeId) {
     document.getElementById("showtimeSelection").style.display = "none";
     document.getElementById("seatSelection").style.display = "block";
@@ -360,9 +363,52 @@ function toggleSeatSelection(button, seat) {
     // Check if exact number of tickets are selected
     if (selectedSeats.length === totalTickets) {
         console.log("All seats selected. Proceed to confirmation.");
-        // Add your proceed-to-confirmation logic here
+        updateConfirmButtonVisibility();
     }
 }
+
+function updateConfirmButtonVisibility() {
+    const confirmButton = document.getElementById("confirmButton");
+    if (confirmButton) {
+        confirmButton.style.display = selectedSeats.length === totalTickets ? "block" : "none";
+    }
+}
+
+async function confirmSeatSelection() {
+    const theaterNumber = parseInt(document.getElementById('modalTheatre').textContent.split(': ')[1], 10);
+    const showtimeId = selectedSeats[0]?.showtime_id || currentlySelectedShowtimeId; // Fallback to a saved showtime ID
+
+    // Ensure that showtimeId exists before proceeding
+    if (!showtimeId) {
+        console.error("Showtime ID not found.");
+        return;
+    }
+
+    try {
+        const response = await fetch('/update-seats', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                theater_id: theaterNumber,
+                showtime_id: showtimeId,
+                seats: selectedSeats
+            })
+        });
+
+        if (response.ok) {
+            alert("Seats confirmed and reserved successfully!");
+            document.getElementById("confirmButton").style.display = "none";
+        } else {
+            console.error("Failed to update seats");
+        }
+    } catch (error) {
+        console.error("Error confirming seat selection:", error);
+    }
+}
+
+
 
 function goBackToShowtimeSelection() {
     document.getElementById("seatSelection").style.display = "none";
