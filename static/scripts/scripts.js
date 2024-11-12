@@ -34,6 +34,19 @@ fetch('static/movies.json')
     })
     .catch(error => console.error('Error loading movies:', error));
 
+async function fetchShowtimeData() {
+    try {
+         const response = await fetch("/static/ticket-database/data.json");
+        const data = await response.json();
+        console.log("Fetched data:", data); // Add this line
+        return data.theaters;
+    } catch (error) {
+            console.error("Error fetching showtime data:", error);
+    }
+}
+    
+
+
 // Carousel Functionality
 let currentSlide = 0;
 
@@ -237,20 +250,122 @@ function confirmSelection() {
 
     if (totalTickets > 0) {
         warningMessage.style.display = "none";
-        openShowtimeSelection();
+        openShowtimeSelection(totalTickets); // Pass totalTickets as an argument
     } else {
         warningMessage.style.display = "block";
     }
 }
 
 // Open the showtime selection screen
-function openShowtimeSelection() {
+async function openShowtimeSelection() {
     document.getElementById("ticketSelectionModal").style.display = "none";
     document.getElementById("showtimeSelection").style.display = "block";
+
+    // Retrieve and log theater number
+    const theaterNumberElement = document.getElementById('modalTheatre');
+    if (!theaterNumberElement) {
+        console.error("modalTheatre element not found.");
+        return;
+    }
+
+    const theaterNumber = parseInt(theaterNumberElement.textContent.split(': ')[1], 10);
+    console.log("Theater Number:", theaterNumber);
+
+    // Fetch the data and log it
+    const theaters = await fetchShowtimeData();
+    console.log("Fetched Theaters Data:", theaters);
+
+    const showtimeContainer = document.getElementById("showtimeContainer");
+    showtimeContainer.innerHTML = ""; // Clear previous showtimes
+
+    // Find the selected theater by matching with theaterNumber
+    const selectedTheater = theaters.find(theater => theater.theater_id === theaterNumber);
+    console.log("Selected Theater:", selectedTheater);
+
+    if (selectedTheater) {
+        selectedTheater.showtimes.forEach(showtime => {
+            const showtimeButton = document.createElement("button");
+            showtimeButton.className = "showtimeButton";
+            showtimeButton.innerText = `${showtime.movie_title} - ${new Date(showtime.start_time).toLocaleString()}`;
+            showtimeButton.onclick = () => selectShowtime(showtime);
+            showtimeContainer.appendChild(showtimeButton);
+        });
+    } else {
+        console.log("No showtimes found for the selected theater.");
+    }
 }
 
-// Go back to ticket selection from showtime selection
+//back to ticket selection
 function goBackToTicketSelection() {
     document.getElementById("showtimeSelection").style.display = "none";
     document.getElementById("ticketSelectionModal").style.display = "block";
 }
+
+
+function selectShowtime(showtime) {
+    console.log("Selected showtime:", showtime);
+    openSeatSelection(showtime.showtime_id); // Pass the showtime ID
+}
+
+
+let selectedSeats = [];
+
+async function openSeatSelection(showtimeId) {
+    document.getElementById("showtimeSelection").style.display = "none";
+    document.getElementById("seatSelection").style.display = "block";
+
+    const theaterNumber = parseInt(document.getElementById('modalTheatre').textContent.split(': ')[1], 10);
+    const theaters = await fetchShowtimeData();
+    const selectedTheater = theaters.find(theater => theater.theater_id === theaterNumber);
+    const showtime = selectedTheater.showtimes.find(s => s.showtime_id === showtimeId);
+
+    totalTickets = ticketCounts.adult + ticketCounts.child + ticketCounts.senior;
+    selectedSeats = [];
+
+    const seatContainer = document.getElementById("seatContainer");
+    seatContainer.innerHTML = "";
+
+    // Create seat grid
+    showtime.seats.forEach((seat, index) => {
+        const seatButton = document.createElement("button");
+        seatButton.className = seat.is_available ? "seat available" : "seat taken";
+        seatButton.textContent = `${seat.row}${seat.number}`;
+        seatButton.disabled = !seat.is_available;
+
+        // Handle seat selection
+        seatButton.onclick = () => toggleSeatSelection(seatButton, seat);
+
+        seatContainer.appendChild(seatButton);
+
+        // Add a line break after each row (10 rows, 16 seats per row)
+        if ((index + 1) % 16 === 0) {
+            seatContainer.appendChild(document.createElement("br"));
+        }
+    });
+}
+
+function toggleSeatSelection(button, seat) {
+    if (selectedSeats.length < totalTickets || button.classList.contains("selected")) {
+        if (button.classList.contains("selected")) {
+            button.classList.remove("selected");
+            button.style.backgroundColor = "blue";
+            selectedSeats = selectedSeats.filter(s => s.row !== seat.row || s.number !== seat.number);
+        } else {
+            button.classList.add("selected");
+            button.style.backgroundColor = "green";
+            selectedSeats.push(seat);
+        }
+    }
+
+    // Check if exact number of tickets are selected
+    if (selectedSeats.length === totalTickets) {
+        console.log("All seats selected. Proceed to confirmation.");
+        // Add your proceed-to-confirmation logic here
+    }
+}
+
+function goBackToShowtimeSelection() {
+    document.getElementById("seatSelection").style.display = "none";
+    document.getElementById("showtimeSelection").style.display = "block";
+}
+

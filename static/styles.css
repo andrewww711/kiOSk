@@ -62,8 +62,8 @@ body {
 }
 
 .hero-video {
-    max-width: 100vw; /* Restricts video width to viewport width */
-    max-height: 100vh; /* Restricts video height to viewport height */
+    max-width: 50vw; /* Restricts video width to viewport width */
+    max-height: 50vh; /* Restricts video height to viewport height */
     width: auto;
     height: auto;
 }
@@ -208,7 +208,7 @@ body {
 
 /* Footer styling */
 .footer {
-    position: fixed;
+    position: sticky;
     bottom: 0;
     width: 100%;
     background-color: #181818; /* Matches site background color */

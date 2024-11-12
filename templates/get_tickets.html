@@ -59,12 +59,30 @@
     </div>
 </div>
 
+<div id="modalTheatre">Theater: 2</div>
+
 <!-- Showtime Selection Screen -->
 <div id="showtimeSelection" style="display: none;">
-    <h2>Select a Showtime</h2>
-    <div id="showtimeButtons"></div>
-    <button onclick="goBackToTicketSelection()" class="back-button">Back to Ticket Selection</button>
+    <h3>Select a Showtime</h3>
+    <div id="showtimeContainer"></div>
+
+    <!-- Back to ticket Selection -->
+    <div class="back-button-container">
+        <button onclick="goBackToTicketSelection()" class="back-button">Back</button>
+    </div>
 </div>
+
+<!-- Seat Selection Screen -->
+<div id="seatSelection" style="display: none;">
+    <h3>Select Your Seats</h3>
+    <div id="seatContainer"></div>
+    <div class="back-button-container">
+        <button onclick="goBackToShowtimeSelection()" class="back-button">Back</button>
+    </div>
+</div>
+
+
+
 
 
 </body>
